@@ -1,4 +1,4 @@
-from flask import flask
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -54,6 +54,3 @@ if __name__ == '__main__':
     db.session.commit()
  
     app.run(debug=True)
-————————————————
-版权声明：本文为CSDN博主「Python碎片」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/weixin_43790276/java/article/details/103378470
