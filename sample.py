@@ -24,6 +24,8 @@ def preprocess_data(data):
             print('Converted phone number header to Phone / Phone_1')
         elif col in ['CLIENT EMAIL', 'Contact:Email', 'Email_Address', 'Email Address']:
             data = data.rename(columns={col: 'Email'})
+
+
     return data
 
 def regular_expression(data):
@@ -33,6 +35,8 @@ def regular_expression(data):
                 data = data.astype({col: 'int'}, copy=False, errors='ignore')
             if data[col].dtypes != 'str':
                 data = data.astype({col: 'str'}, copy=False)
+        elif re.search('date', col, flags=re.I) or re.search('Createdon', col, flags=re.I) or re.search('Last Modified', col, flags=re.I) or re.search('Last Activity', col, flags=re.I):
+            data[[col]] = data[[col]].astype(object).where(data[col].notnull(), None)
     return data
 
 
@@ -52,12 +56,11 @@ def excel_to_json(filename, header=0):
     print('size', data.size)
     return data.to_dict('records')
 
-def main():
+def uploadDataToMongoDB(filepath):
     client = MongoClient("mongodb+srv://dbAdmin:insolar@cluster0.huuha.mongodb.net/insolar?retryWrites=true&w=majority")
-
     database = client['insolar']
     collection = database['contact']
-    filepath = './flaskr/data/datachunk1009.xlsx'
+
     _, file_extension = os.path.splitext(filepath)
     if file_extension == '.csv':
         json_obj = csv_to_json(filepath)
@@ -67,9 +70,11 @@ def main():
         print('This is not a valid file type!')
     print(json_obj[0])
 
-    #collection.insert_many(json_obj)
+    collection.insert_many(json_obj)
 
 
-main()
+
+
+# uploadDataToMongoDB('./flaskr/data/report1467143114250.xlsx')
 
 

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Solar Data{% endblock %}</h1>
+  <a class="action" href="{{ url_for('contact.upload_file') }}">Upload New</a>
+  <a class="action" href="{{ url_for('contact.search') }}">Search</a>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Show records: ( 1 to {{numDocs}} )</h2>
+    <form method=post enctype=multipart/form-data>
+      <label for="startidx">From: </label><input id="startidx" name="startidx" type="number" min="1" max={{numDocs}}>
+      <label for="endidx">To: </label><input id="endidx" name="endidx" type="number" min="1" max={{numDocs}}>
+      <input type=submit value="Show">
+    </form>
+
+    <h2>Records {{startIdx}} to {{endIdx}}:</h2><br/>
+    {% if contacts %}
+      {{ contacts | safe }}
+    {% else %}
+      <p>No record found!</p>
+    {% endif %}
+
+
+{% endblock %}
