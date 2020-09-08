@@ -6,7 +6,12 @@ import re
 import pandas as pd
 from pymongo import MongoClient
 
-
+"""
+    Upload csv or excel file into mongoDB database.
+    
+    Usage:
+    uploadDataToMongoDB(filepath)
+"""
 
 
 def clear_db(myCollection):

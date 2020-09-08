@@ -38,11 +38,6 @@ def create_app(test_config=None):
         return 'Hello, World!'
 
 
-    # authentication
-    from . import auth
-    app.register_blueprint(auth.bp)
-
-
     # import and register the contacts bluepoint
     with app.app_context():
         from . import contact
